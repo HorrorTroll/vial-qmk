@@ -171,6 +171,14 @@ else
         SRC += $(PLATFORM_COMMON_DIR)/flash_stm32.c
         OPT_DEFS += -DEEPROM_EMU_STM32F072xB
         OPT_DEFS += -DSTM32_EEPROM_ENABLE
+      else ifeq ($(MCU_SERIES)_$(MCU_LDSCRIPT), SN32F240B_SN32F240B)
+        SRC += $(PLATFORM_COMMON_DIR)/eeprom_sn32.c
+        OPT_DEFS += -DEEPROM_EMU_SN32F240B
+        OPT_DEFS += -DSN32_EEPROM_ENABLE
+      else ifeq ($(MCU_SERIES)_$(MCU_LDSCRIPT), SN32F260_SN32F260)
+        SRC += $(PLATFORM_COMMON_DIR)/eeprom_sn32.c
+        OPT_DEFS += -DEEPROM_EMU_SN32F260
+        OPT_DEFS += -DSN32_EEPROM_ENABLE
       else ifeq ($(MCU_SERIES)_$(MCU_LDSCRIPT), STM32F0xx_STM32F042x6)
 
         # Stack sizes: Since this chip has limited RAM capacity, the stack area needs to be reduced.
@@ -270,7 +278,7 @@ endif
 endif
 
 RGB_MATRIX_ENABLE ?= no
-VALID_RGB_MATRIX_TYPES := AW20216 IS31FL3731 IS31FL3733 IS31FL3737 IS31FL3741 WS2812 custom
+VALID_RGB_MATRIX_TYPES := AW20216 IS31FL3731 IS31FL3733 IS31FL3737 IS31FL3741 SN32F24xx WS2812 custom
 
 ifeq ($(strip $(RGB_MATRIX_ENABLE)), yes)
     ifeq ($(filter $(RGB_MATRIX_DRIVER),$(VALID_RGB_MATRIX_TYPES)),)
@@ -324,6 +332,12 @@ endif
         COMMON_VPATH += $(DRIVER_PATH)/led/issi
         SRC += is31fl3741.c
         QUANTUM_LIB_SRC += i2c_master.c
+    endif
+
+    ifeq ($(strip $(RGB_MATRIX_DRIVER)), SN32F24xx)
+        OPT_DEFS += -DSN32F24xx
+        COMMON_VPATH += $(DRIVER_PATH)/led
+        SRC += sn32f24xx.c
     endif
 
     ifeq ($(strip $(RGB_MATRIX_DRIVER)), WS2812)
