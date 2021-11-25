@@ -2,7 +2,7 @@
   "name": "Akko 3061 World Tour Tokyo R2",
   "vendorId": "0x320F",
   "productId": "0x5025",
-  "lighting": "qmk_rgblight",
+  "lighting": "vialrgb",
   "matrix": {
     "rows": 5,
     "cols": 14
